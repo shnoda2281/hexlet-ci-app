@@ -1,0 +1,35 @@
+name: main
+
+on:
+  push:
+  pull_request:
+
+jobs:
+  ci:
+    runs-on: ubuntu-latest
+    steps:
+      # 1) Клонирование репозитория
+      - uses: actions/checkout@v4
+
+      # 2) Установка Node
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+          cache: 'npm'
+
+      # 3) Установка зависимостей проекта
+      - name: make setup
+        run: make setup
+
+      # 4) Запуск тестов
+      - name: make test
+        run: make test
+
+      # 5) Линтер (если нужен — обычно да)
+      - name: make lint
+        run: make lint
+
+      # 6) Экшен от Hexlet, который выводит "Hello from Hexlet!"
+      - name: hello from hexlet
+        uses: hexlet-components/hello-from-hexlet-action@release
